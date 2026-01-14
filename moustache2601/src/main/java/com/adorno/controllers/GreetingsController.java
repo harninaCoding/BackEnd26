@@ -1,5 +1,8 @@
 package com.adorno.controllers;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,5 +17,17 @@ public class GreetingsController {
 		model.addAttribute("name", "jupiter");
 		return "greeting_template";
 	}
-
+	
+	@RequestMapping("/basic")
+	public String basic(Model model) {
+		model.addAttribute("name", "world");
+		model.addAttribute("silent", false);
+		return "basic_template";
+	}
+	@RequestMapping("/list")
+	public String iteration(Model model) {
+		List<String> colors = Arrays.asList("Red", "Blue", "Green");
+		model.addAttribute("colors", colors);
+		return "list_template";
+	}
 }
