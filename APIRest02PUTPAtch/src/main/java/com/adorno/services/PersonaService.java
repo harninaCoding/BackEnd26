@@ -6,37 +6,43 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.adorno.modelo.DTOS.PersonaPATCHDTO;
+import com.adorno.modelo.DTOS.PersonaPUTDTO;
 import com.adorno.modelo.entities.Persona;
-import com.adorno.modelo.entities.PersonaPUTDTO;
+import com.adorno.modelo.mappers.PersonaPUTDTO2Persona;
 import com.adorno.objectMother.PersonaOM;
 
 @Service
 public class PersonaService {
-	ArrayList<Persona> personas;
+	private ArrayList<Persona> personas;
+	private final PersonaPUTDTO2Persona personaPUTDTO2Persona;
 
-	public PersonaService() {
+	public PersonaService(PersonaPUTDTO2Persona personaPUTDTO2Persona) {
 		super();
 		personas = new PersonaOM().getPersonas();
+		this.personaPUTDTO2Persona=personaPUTDTO2Persona;
 	}
 
 	public Optional<Persona> findByID(int id) {
-		return  personas.stream().filter((per) -> {
+		return personas.stream().filter((per) -> {
 			return per.getId() == id;
 		}).findFirst();
 	}
+
 	public Optional<Persona> findByReferencia(String referencia) {
-		return  personas.stream().filter((per) -> {
+		return personas.stream().filter((per) -> {
 			return per.getReferencia().equals(referencia);
 		}).findFirst();
 	}
 
-	public List<Persona> findAll(){
+	public List<Persona> findAll() {
 		return personas;
 	}
-	
+
 	public boolean addPersona(Persona persona) {
-		//para que sea idempotente
-		if(personas.contains(persona)) return false;
+		// para que sea idempotente
+		if (personas.contains(persona))
+			return false;
 		return personas.add(persona);
 	}
 
@@ -51,12 +57,25 @@ public class PersonaService {
 
 	public boolean update(String referencia, PersonaPUTDTO persona) {
 		Optional<Persona> byReferencia = findByReferencia(referencia);
-		if(byReferencia.isPresent()) {
-			Persona persona2 = byReferencia.get();
-			persona2.setNombre(persona.getNombre());
-			persona2.setEdad(persona.getEdad());
+		if (byReferencia.isPresent()) {
+			personaPUTDTO2Persona.convert(byReferencia.get(), persona);
 			return true;
 		}
 		return false;
+	}
+
+	public boolean partialUpdate(String referencia, PersonaPATCHDTO personaPATCHDTO) {
+		Optional<Persona> byReferencia = findByReferencia(referencia);
+		if (byReferencia.isEmpty())
+			return false;
+		Persona persona = byReferencia.get();
+		if (personaPATCHDTO.getNombre() != null)
+			persona.setNombre(personaPATCHDTO.getNombre());
+		if (personaPATCHDTO.getEdad() != null)
+			persona.setEdad(personaPATCHDTO.getEdad());
+		if (personaPATCHDTO.getDescripcion() != null)
+			persona.setDescripcion(personaPATCHDTO.getDescripcion());
+
+		return true;
 	}
 }

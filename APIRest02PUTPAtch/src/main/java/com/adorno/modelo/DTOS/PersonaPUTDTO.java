@@ -1,4 +1,4 @@
-package com.adorno.modelo.entities;
+package com.adorno.modelo.DTOS;
 
 import java.util.Objects;
 
@@ -6,6 +6,7 @@ public class PersonaPUTDTO {
 	 //clave para uso externo
     private String  nombre;
     private int edad;
+    //falta descripcion metedlo
     
 	public PersonaPUTDTO(String nombre, int edad) {
 		super();

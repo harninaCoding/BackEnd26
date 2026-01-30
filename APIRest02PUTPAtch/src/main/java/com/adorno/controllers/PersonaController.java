@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.adorno.modelo.DTOS.PersonaPATCHDTO;
+import com.adorno.modelo.DTOS.PersonaPUTDTO;
 import com.adorno.modelo.entities.Persona;
-import com.adorno.modelo.entities.PersonaPUTDTO;
 import com.adorno.services.PersonaService;
 
 //con esto le decimos que estamos definiendo un APIREST
@@ -44,6 +46,7 @@ public class PersonaController {
 		return personaService.findAll();
 	}
 	
+	//tambien deberia ser personaDTO
 	@PostMapping("nuevo")
 	public boolean addPersona(@RequestBody Persona persona) {
 		return personaService.addPersona(persona);
@@ -54,8 +57,15 @@ public class PersonaController {
 		return personaService.borrar(id);
 	}
 	
+	//Susititucion completa de recurso
 	@PutMapping("sustituto")
 	public boolean actualizarCompletamente(@RequestParam String referencia, @RequestBody PersonaPUTDTO persona) {
 		return personaService.update(referencia,persona);
+	}
+	
+	//actualizacion parcial
+	@PatchMapping("actualizacion")
+	public boolean actualizarParcial(@RequestParam String referencia,@RequestBody PersonaPATCHDTO personaPATCHDTO) {
+		return personaService.partialUpdate(referencia,personaPATCHDTO);
 	}
 }

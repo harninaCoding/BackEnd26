@@ -9,13 +9,24 @@ public class Persona {
     private String referencia;
     private String  nombre;
     private int edad;
+    private String descripcion;
     
-	public Persona(int id, String referencia, String nombre, int edad) {
+	
+	public Persona(int id, String referencia, String nombre, int edad, String descripcion) {
 		super();
 		this.id = id;
 		this.referencia = referencia;
 		this.nombre = nombre;
 		this.edad = edad;
+		this.descripcion = descripcion;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	public String getReferencia() {
