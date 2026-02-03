@@ -2,12 +2,15 @@ package com.adorno.modelo.entities;
 
 import java.util.Objects;
 
+import com.adorno.modelo.valueobjects.DNI;
+
 public class Persona {
 	//id es de uso interno de la bbdd
     private int id;
     //clave para uso externo
+    private DNI dni;
     private String referencia;
-    private String  nombre;
+    private String nombre;
     private int edad;
     private String descripcion;
     
