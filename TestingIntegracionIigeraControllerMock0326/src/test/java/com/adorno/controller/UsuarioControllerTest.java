@@ -1,12 +1,12 @@
 package com.adorno.controller;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.ObjectInputFilter.Status;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.http.StreamingHttpOutputMessage.Body;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.adorno.modelo.Usuario;
 import com.adorno.repository.UsuarioRepository;
@@ -35,6 +37,8 @@ class UsuarioControllerTest {
 	@Test
 	void test() {
 		try {
+			List<Body> entrada;
+			List<ResultMatcher> especteds=List.of(status().isCreated(),status().ok(),...);
 			mockMvc.perform(post("/usuarios/registrar")
 //						.with(csrf())
 						.contentType(MediaType.APPLICATION_JSON)
